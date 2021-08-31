@@ -1,26 +1,15 @@
 ### LSTM anormaly detection
 
-Implementation of LSTM + KS test anomaly detection
+Implementation of LSTM + KS test for anomaly detection in the following paper:
 
-#### Preprocess data
+Zecheng He, Aswin Raghavan, Guangyuan Hu, Sek Chai, and Ruby Lee. "[Power-grid Controller Anomaly Detection with Enhanced Temporal Deep Learning](https://ieeexplore.ieee.org/abstract/document/8887367?casa_token=IAE4kv3Nc_0AAAAA:udZTvOo60xKOlqYal80eOaPdByUNfP03raQlESzB0Y2ub1s8qxEbn_9KmQVmF_ttQ2NzjOZ2k-o)". IEEE International Conference On Trust, Security And Privacy In Computing And Communications (TrustCom), 2019.
 
-Create a data directory `data/`
-```shell
-mkdir data
-```
+#### Sample data
 
-Put the collected sensor data in HW1 (train_normal, val_and_ref, test_normal, test_abnormal) under directory `data/`. Better to rename the corresponding data to `train_normal.csv`, `val_and_ref.csv`, `test_normal.csv`, `test_abnormal.csv` to match the default file names in the training and evaluation scripts.
+The original data of power-grid controller is under confidentiality restriction. Here we provide a sample data of [smartphone impostor detection](https://arxiv.org/pdf/2103.06453.pdf). The data format is the same.
 
-Run preprocess script:
-```shell
-python preprocess_data_ELE472.py
-```
-It generates `.npy` files from `.csv` for training. It uses accelerometer and gyroscope magnitude. Feel free to add more sensors.
+The sample data (smartphone sensor data) are in `data/`: `train_normal.npy`, `val_and_ref.npy`, `test_normal.npy`, `test_abnormal.npy`.
 
-#### Visualize sensor readings
-```shell
-python visualize.py
-```
 
 #### Train an LSTM anomaly detector
 
@@ -62,13 +51,14 @@ python LSTMAD.py --training --Nhidden 32 --BatchSize 32 --ChunkSize 1000
 | RED_points | The number of points to form a RED distribution | 100 | 10, 20, 50, 100, 200, 500, 1000 |
 | Pvalue_th | p-value threshold in KS-test to determine abnormal | 0.05 | Tune only after you have already got a good ROC. Find threshold at EER is automatic. |
 
-#### Convert the trained model on PC to smartphone models
+#### Reference
+You are encouraged to cite the following paper.
 
-```shell
-python convert_model.py
 ```
-
-This script generates `checkpoints/model.pt` and `data/ref_RED.csv`.
-Put `model.pt` and `ref_RED.csv` under `ContInf/app/src/main/assets` in the Android folder.
-
-Link to [ELE472 Android starter code](https://drive.google.com/drive/folders/1OBA5Q7Jr2iiXbOrp5YNr6rHkiscnGdGq?usp=sharing).
+@inproceedings{he2019power,
+  title={Power-grid controller anomaly detection with enhanced temporal deep learning},
+  author={He, Zecheng and Raghavan, Aswin and Hu, Guangyuan and Chai, Sek and Lee, Ruby},
+  booktitle={IEEE International Conference On Trust, Security And Privacy In Computing And Communications (TrustCom)},
+  year={2019}
+}
+```
